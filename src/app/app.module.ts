@@ -5,17 +5,19 @@ import { HttpModule } from '@angular/http';
 import { AlertModule } from 'ng2-bootstrap';
 
 import { AppComponent } from './app.component';
+import { PortalComponent } from './portal/portal.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PortalComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-	AlertModule.forRoot()
+    AlertModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

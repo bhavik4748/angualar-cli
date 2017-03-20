@@ -1,0 +1,345 @@
+<!--Application Status / Property Profile-->
+<!--Application Status-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-3 col-sm-2 col-md-1">
+      <img class="ps-Header-Build img-rounded" ng-src="images/dob_now_build.jpg" />
+    </div>
+    <div class="clearfix visible-md-block"></div>
+    <div class="col-xs-9 col-sm-10 col-md-11 gradient-blues">
+      <div class="col-xs-8 col-sm-8 col-md-9" style="padding-left:25px; padding-top:5px;">
+        <span style="font-size: 27px;">DOB NOW </span>
+        <div style="font-size: 20px;padding-top: 5px;">Submit Filings, Payments, and Requests to the NYC Department of Buildings</div>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-3 pull-right" style="padding-top: 15px;" ng-show="(LoggedInUser.loggedInUserObj.userName !=undefined && LoggedInUser.loggedInUserObj.userName != '' )">
+        <div class="col-xs-12 col-sm-12 col-md-12 text-right " style="padding:0;">Welcome, {{LoggedInUser.loggedInUserObj.firstName + ' ' + LoggedInUser.loggedInUserObj.lastName }}</div>
+        <div class="col-xs-12 col-sm-12 col-md-12 text-right" style="padding:0; font-size:12px;">{{LoggedInUser.loggedInUserObj.userName }}</div>
+        <div class="col-xs-12 col-sm-12 col-md-12 text-right" style="padding:0;">
+          <a ui-sref="logOut">
+            <div style="font-size: 16px;">
+              Sign Out
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-12 bottom-pad-10"></div>
+<table style="width: 100%; margin: 0 10px -6px; color: #28387c;">
+  <tr class="inlineBlock">
+    <td class="font-styling" style="margin-left:10px;">
+      <!--<h3>Filing Progress</h3>-->
+    </td>
+  </tr>
+
+  <!--Property Profile Link-->
+
+  <tr class="inlineBlock" style="float: right; margin-right: 15px;">
+    <td>
+      <a id="dashboardButtonStyle" class="btn btn-default btn-lg active pull-right" role="button" ui-sref="dashBoard">
+        <span class="glyphicon glyphicon-dashboard"></span>Dashboard
+      </a>
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+
+<!--applicationStatusBreadcrumbCotainer-->
+<div class="applicationStatusBreadcrumbCotainer">
+  <div class="inlineBlock">
+    <!--Pre-Filing-->
+    <div class="applicationStatusBreadcrumbItem">
+      <div ng-class="SetWFStatusBar('1', 'bNotInProgressAtPF')">
+        <div class="applicationStatusBreadcrumbItemName segoeUISemiLight">Pre-Filing</div>
+        <div ng-show="bNotInProgressAtPF"><i class="fa fa-exclamation" style="color:red;"></i></div>
+      </div>
+    </div>
+
+    <!--Design Professional Review-->
+    <div class="applicationStatusBreadcrumbItem" ng-show="showStatusPerReviewType">
+      <div ng-class="SetWFStatusBar('2', 'bNotInProgressAtDP')">
+        <div class="applicationStatusBreadcrumbItemName segoeUISemiLight">
+          Design Professional
+          <br />Review
+        </div>
+        <div ng-show="bNotInProgressAtDP"><i class="fa fa-exclamation" style="color:red;"></i></div>
+      </div>
+    </div>
+
+    <!--Plan Review-->
+    <div class="applicationStatusBreadcrumbItem" ng-show="showStatusPerReviewType && isStandardPlan">
+      <div ng-class="SetWFStatusBar('3,4,5,19,20,23', 'bNotInProgressAtPR')">
+        <div class="applicationStatusBreadcrumbItemName segoeUISemiLight">
+          Plan
+          <br />Review
+        </div>
+        <div ng-show="bNotInProgressAtPR"><i class="fa fa-exclamation" style="color:red;"></i></div>
+      </div>
+    </div>
+
+    <!--Prof cert QA review-->
+    <div class="applicationStatusBreadcrumbItem" ng-show="showStatusPerReviewType && !isStandardPlan">
+      <div ng-class="SetWFStatusBar('25,26,27,9', 'bNotInProgressAtPCR')">
+        <div class="applicationStatusBreadcrumbItemName segoeUISemiLight">
+          Prof Cert QA
+          <br />Review
+        </div>
+        <div ng-show="bNotInProgressAtPR"><i class="fa fa-exclamation" style="color:red;"></i></div>
+      </div>
+    </div>
+
+    <!--Plan Approved-->
+    <div class="applicationStatusBreadcrumbItem" ng-show="showStatusPerReviewType">
+      <div ng-class="SetWFStatusBar('6', 'bNotInProgressAtPA')">
+        <div class="applicationStatusBreadcrumbItemName segoeUISemiLight">
+          Plan
+          <br />Approved
+        </div>
+        <div ng-show="bNotInProgressAtPA"><i class="fa fa-exclamation" style="color:red;"></i></div>
+      </div>
+    </div>
+
+    <!--Permit Review-->
+    <div class="applicationStatusBreadcrumbItem" ng-show="showStatusPerReviewType">
+      <div ng-class="SetWFStatusBar('7,8,9,24', 'bNotInProgressAtPerR')">
+        <!--7,8,9,24,25,27-->
+        <div class="applicationStatusBreadcrumbItemName segoeUISemiLight">Permit Review</div>
+      </div>
+      <div ng-show="bNotInProgressAtPerR"><i class="fa fa-exclamation" style="color:red;"></i></div>
+    </div>
+
+    <!--Permit-->
+    <div class="applicationStatusBreadcrumbItem" ng-show="showStatusPerReviewType">
+      <div ng-class="SetWFStatusBar('10,13,15,22', 'bNotInProgressAtP')">
+        <div class="applicationStatusBreadcrumbItemName segoeUISemiLight">Permit</div>
+      </div>
+      <div ng-show="bNotInProgressAtP"><i class="fa fa-exclamation" style="color:red;"></i></div>
+    </div>
+
+    <!--Signoff-->
+    <div class="applicationStatusBreadcrumbItem" ng-show="showStatusPerReviewType">
+      <div ng-class="SetWFStatusBar('18', 'bNotInProgressAtSO')">
+        <div class="applicationStatusBreadcrumbItemName segoeUISemiLight">Signoff</div>
+      </div>
+      <div ng-show="bNotInProgressAtSO"><i class="fa fa-exclamation" style="color:red;"></i></div>
+    </div>
+
+    <!--Letter of Completion-->
+    <div class="applicationStatusBreadcrumbItem" ng-show="showStatusPerReviewType">
+      <div ng-class="SetWFStatusBar('LOC')">
+        <div class="applicationStatusBreadcrumbItemName segoeUISemiLight">Letter of Completion</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!--Job Details-->
+<div class="col-xs-12 col-sm-12 col-md-12 text-left" style="padding:0; padding-left: 15px;">
+
+</div>
+
+
+
+<form name="frmportal" id="frmportal">
+  <div class="col-xs-12 col-sm-12 col-md-12">
+
+    <button type="button" class="btn btn-primary dob_button" ng-click="SaveJobFiling(frmportal)" ng-disabled="showFilingButtonForDPRole || showLoading || disableSaveAsJobStatus">
+            <span class="glyphicon glyphicon-floppy-disk"></span> Save
+        </button>
+
+    <button type="button" class="btn btn-info dob_button" ng-click="SubmitJobFiling(frmportal)" ng-disabled="disableOnFileStatus|| disableApplicantStatementCheckbox || showFilingButtonForDPRole || showLoading || disabledPerNon_DPRole || IsApproved"
+      ng-show="!submitOrReSubmit">
+            <span class="glyphicon glyphicon-file"></span>Preview to File
+        </button>
+    <button type="button" class="btn btn-info dob_button" ng-click="SubmitJobFiling(frmportal)" ng-disabled="disableApplicantStatementCheckbox || showFilingButtonForDPRole || showLoading || disabledPerNon_DPRole || IsApproved || QAFailedResolved"
+      ng-show="submitOrReSubmit">
+            <span class="glyphicon glyphicon-file"></span>Re-Submit
+        </button>
+    <span>&nbsp;&nbsp;&nbsp;</span>
+    <span class="segoeUILight" style="font-size:23px;">
+            <b>&nbsp;Job# &nbsp;{{jobFilingObj.ProjectNumber}}&nbsp; Filing# &nbsp; {{jobFilingObj.FilingNumber}}</b>
+        </span>
+
+    <span data-ng-show="showLoading" style="color:green;">
+            <b>Please Wait... </b>
+            <i class="fa fa-spinner fa-spin"></i>
+        </span>
+    <span data-ng-show="correctioninProgress" style="color:darkorange;">
+            <b>Correction in Progress!!! </b>
+        </span>
+    <div class="pull-right">
+      <button type="button" class="btn btn-default" ng-click="downloadDocument()">
+                <span class="fa fa-file-pdf-o"></span>View Filing
+            </button>
+      <button type="button" class="btn btn-default" ng-click="ShowLocationChange()" ng-disabled="true" ng-show="false">
+                <span class="fa fa-map-marker"></span>Location Change Request
+            </button>
+      <button type="button" class="btn btn-default" ng-click="ShowPaymentHistory()">
+                <span class="fa fa-history"></span>Payment History
+            </button>
+      <button type="button" class="btn btn-default" ng-click="ShowHistoryTrace()">
+                <span class="fa fa-history"></span>Trace History
+            </button>
+      <button type="button" class="btn btn-default" ng-click="ShowPropertyProfile()">
+                <span class="fa fa-building-o"></span>Property Profile
+            </button>
+    </div>
+
+  </div>
+
+  <nav class="col-xs-12 col-sm-12 col-md-12 table-bordered">
+    <ul class="nav nav-pills nav-justified col-xs-12 col-sm-12 col-md-12" style="width:100% !important" id="menubar">
+      <!--Plans/Work (PW1)-->
+      <li class="stageContainer" ui-sref-active="active" data-toggle="pill" ui-sref="portal.planWork">
+        <div class="middleStageContainer">
+          <div class="stageTail-triangle"></div>
+          <div class="stageMiddlePart">
+            <a class="segoeUISemiBold">
+                            Plans/Work (PW1)
+                        </a>
+          </div>
+          <div class="stageHead-triangle"></div>
+        </div>
+      </li>
+
+      <!--Scope of Work (PW3)-->
+      <li class="stageContainer" ui-sref-active="active" data-toggle="pill" ui-sref="portal.scopeOfWork">
+        <div class="middleStageContainer">
+          <div class="stageTail-triangle"></div>
+          <div class="stageMiddlePart">
+            <a class="segoeUISemiBold">
+                            Scope of Work
+                        </a>
+          </div>
+          <div class="stageHead-triangle"></div>
+        </div>
+
+      </li>
+
+      <!--Cost Affidavit (PW3)-->
+      <li class="stageContainer" ui-sref-active="active" data-toggle="pill" ui-sref="portal.costAffidavit">
+        <div class="middleStageContainer">
+          <div class="stageTail-triangle"></div>
+          <div class="stageMiddlePart">
+            <a class="segoeUISemiBold">
+                            Cost Affidavit (PW3)
+                        </a>
+          </div>
+          <div class="stageHead-triangle"></div>
+        </div>
+
+      </li>
+
+      <!--Technical Report (TR1)-->
+      <li class="stageContainer" ui-sref-active="active" data-toggle="pill" ui-sref="portal.technicalReport">
+        <div class="middleStageContainer">
+          <div class="stageTail-triangle"></div>
+          <div class="stageMiddlePart">
+            <a class="segoeUISemiBold">
+                            Technical Report (TR1)
+                        </a>
+          </div>
+          <div class="stageHead-triangle"></div>
+        </div>
+      </li>
+
+      <!--Technical Report Energy (TR8)-->
+      <li class="stageContainer" data-toggle="pill" ui-sref-active="active" ui-sref="portal.technicalReportEnergy" ng-show="showTR8">
+        <div class="middleStageContainer">
+          <div class="stageTail-triangle"></div>
+          <div class="stageMiddlePart">
+            <a class="segoeUISemiBold">
+                            Technical Report Energy (TR8)
+                        </a>
+          </div>
+          <div class="stageHead-triangle"></div>
+        </div>
+
+      </li>
+
+      <!--Required Documents-->
+      <li class="stageContainer" data-toggle="pill" ui-sref-active="active" ui-sref="portal.docsRequired" ng-show="bReqItemsPopulated">
+        <div class="middleStageContainer">
+          <div class="stageTail-triangle"></div>
+          <div class="stageMiddlePart">
+            <a class="segoeUISemiBold">
+                            Documents
+                        </a>
+          </div>
+          <div class="stageHead-triangle"></div>
+        </div>
+      </li>
+
+      <!--EN2-->
+      <li class="stageContainer" data-toggle="pill" ui-sref-active="active" ui-sref="portal.en2" ng-show="showEn2">
+        <div class="middleStageContainer">
+          <div class="stageTail-triangle"></div>
+          <div class="stageMiddlePart">
+            <a class="segoeUISemiBold">
+                            EN2
+                        </a>
+          </div>
+          <div class="stageHead-triangle"></div>
+        </div>
+
+      </li>
+
+      <!--Work Permit-->
+      <li class="stageContainer" data-toggle="pill" ui-sref-active="active" ui-sref="portal.workPermit" ng-show="CheckJobfileID()">
+        <div class="middleStageContainer">
+          <div class="stageTail-triangle"></div>
+          <div class="stageMiddlePart">
+            <a class="segoeUISemiBold">
+                            Work Permit (PW2)
+                        </a>
+          </div>
+          <div class="stageHead-triangle"></div>
+        </div>
+      </li>
+      <!--Statements & Signatures-->
+      <li class="stageContainer" data-toggle="pill" ui-sref-active="active" ui-sref="portal.legalContent">
+        <div class="middleStageContainer">
+          <div class="stageTail-triangle"></div>
+          <div class="stageMiddlePart">
+            <a class="segoeUISemiBold">
+                            Statements & Signatures
+                        </a>
+          </div>
+          <div class="stageHead-triangle"></div>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  <div class="content" id="fixedviews">
+    <div class="veil-portal" ng-show="showLoading"></div>
+    <div class="col-xs-12 col-md-8 col-lg-8 text-center media-middle" ng-if="! showLoadingSpinner()">
+      <br />
+      <br />
+      <br />
+      <br />
+      <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="col-xs-12 col-md-8 col-lg-8" ui-view="view1" ng-class="transition" style="margin-top: 8px;" ng-if="showLoadingSpinner()"></div>
+    <div class="col-xs-12 col-md-4 col-lg-4" ng-include="appStatusPath"></div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+      <button type="button" class="btn btn-primary dob_button" ng-click="SaveJobFiling(frmportal)" ng-disabled="showFilingButtonForDPRole || showLoading || disableSaveAsJobStatus">
+                <span class="glyphicon glyphicon-floppy-disk"></span> Save
+            </button>
+      <button type="button" class="btn btn-info dob_button" ng-click="SubmitJobFiling(frmportal)" ng-disabled="disableOnFileStatus||disableApplicantStatementCheckbox || showFilingButtonForDPRole || showLoading || disabledPerNon_DPRole  || IsApproved"
+        ng-show="!submitOrReSubmit">
+                <span class="glyphicon glyphicon-file"></span>Preview to File
+            </button>
+      <button type="button" class="btn btn-info dob_button" ng-click="SubmitJobFiling(frmportal)" ng-disabled="disableApplicantStatementCheckbox || showFilingButtonForDPRole || showLoading || disabledPerNon_DPRole  || IsApproved || QAFailedResolved"
+        ng-show="submitOrReSubmit">
+                <span class="glyphicon glyphicon-file"></span>Re-Submit
+            </button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">&nbsp;</div>
+  </div>
+</form>
